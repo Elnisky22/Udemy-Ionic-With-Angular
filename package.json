@@ -1,8 +1,10 @@
 {
   "scripts": {
-    "ionic": "ionic"
+    "ionic": "ionic",
+    "ng": "ng"
   },
   "dependencies": {
+    "@angular/cli": "^19.2.4",
     "ionic": "^5.4.16"
   }
 }

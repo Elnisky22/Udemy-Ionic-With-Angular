@@ -1,0 +1,10 @@
+<label for="name">Name:</label>
+<input type="text" name="name" id="name" [(ngModel)]="enteredPersonName">
+<button (click)="onCreatePerson()">Create</button>
+
+<hr>
+
+<p *ngIf="isFetching">Fetching data...</p>
+<ul *ngIf="!isFetching">
+    <li *ngFor="let person of personList">{{ person }}</li>
+</ul>
