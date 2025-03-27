@@ -1,0 +1,50 @@
+@use "sass:color";
+@use 'mixins' as *;
+@use 'variables' as *;
+
+.dark-theme {
+    background-color: $dark-2;
+    color: $color-3;
+
+    .btn-default {
+        a, button {
+            background-color: $dark-3;
+            color: $color-3;
+        }
+    }
+
+    header {
+        background-color: $dark-1;
+        .search {
+            @include placeholder($color-3);
+            &-input {
+                border-color: $color-3;
+                color: $color-3;
+                &:hover, &:focus {
+                    border: 1px solid transparent;
+                    border-bottom: 1px solid $color-3;
+                }
+            }
+        }
+    }
+
+    #listagem {
+        #list {
+            border-color: #fff;
+            li {
+                background-color: $dark-3;
+                border-color: #fff;
+                a {
+                    color: #fff;
+                }
+                &:nth-child(odd) {
+                    background-color: color.adjust($dark-3, $lightness: 10%);
+                }
+            }
+        }
+    }
+
+    footer {
+        background-color: $dark-3;
+    }
+}

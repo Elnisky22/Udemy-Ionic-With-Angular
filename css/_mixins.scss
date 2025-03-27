@@ -1,0 +1,129 @@
+@use "sass:list";
+@use "sass:meta";
+@use "sass:string";
+
+//--Utils--------------------------------------//
+
+%full-content-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+//--Placeholder--------------------------------//
+
+@mixin placeholder($val){
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+        color: $val;
+        opacity: 1;
+    }
+
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+        color: $val;
+        opacity: 1;
+    }
+
+    input::-moz-placeholder,
+    textarea::-moz-placeholder{
+        color: $val;
+        opacity: 1;
+    }
+
+    input:-moz-placeholder,
+    textarea:-moz-placeholder{
+        color: $val;
+        opacity: 1;
+    }
+}
+
+//--Selector-----------------------------------//
+
+@mixin selectionColor($val){
+    ::selection {
+        background: $val;
+    }
+    ::-moz-selection {
+        background: $val;
+    }
+}
+
+//--Filter Gradient----------------------------//
+
+@mixin filter-gradient($colors, $direction:left) {
+    // Default values: gradient na horizontal da esquerda para direita
+    $direction: if($direction == horizontal, left, $direction);
+    $wkit-direction1: left top;
+    $wkit-direction2: right top;
+    $linear-direction: to right;
+    $radial-direction: null;
+    $gradient-type: 1;
+
+    $type: if($direction == radial, radial, linear);
+
+    @if ($direction == vertical) {
+        $direction: top;
+        $wkit-direction2: left bottom;
+        $linear-direction: to bottom;
+        $gradient-type: 0;
+    }
+    @if ($direction == d-bottom) {
+        $direction: -45deg;
+        $wkit-direction2: right bottom;
+        $linear-direction: 135deg;
+    }
+    @if ($direction == d-top) {
+        $direction: 45deg;
+        $wkit-direction1: left bottom;
+        $linear-direction: 45deg;
+    }
+    @if ($direction == radial) {
+        $direction: center;
+        $radial-direction: ellipse farthest-corner;
+        $wkit-direction1: center;
+        $wkit-direction2: center center, 0px, center center, 100%;
+    }
+
+    @if meta.type-of($colors)!='string' {
+        $colors: #{$colors};
+    }
+
+    $start: string.quote(list.nth($colors, 1));
+    $start: string.unquote(string.slice($start, 0, string.index($start, ' ') - 1));
+    
+    $stop: string.quote(list.nth($colors, -1));
+    $stop: string.unquote(string.slice($stop, 0, string.index($stop, ' ') - 1));
+    
+    $gradient: '';
+    @each $color in $colors {
+        $string: string.quote($color);
+        $cut-index: string.index($string, ' ');
+        
+        $cor: string.unquote(string.slice($string, 0, $cut-index - 1));
+        $percent: string.unquote(string.slice($string, $cut-index + 1));
+
+        $gradient: $gradient + ', color-stop(' + $percent + ', ' + $cor + ')';
+    }
+
+    // Backgrounds
+    background: $start;
+    background: #{$type}-gradient(if($type == linear, $linear-direction, ellipse farthest-corner), $colors);
+    background: -ms-#{$type}-gradient($direction, if($type == radial, string.unquote($radial-direction + ', '), null) $colors);
+    background: -webkit-gradient($wkit-direction1, $wkit-direction2 string.unquote($gradient));
+    background: -o-#{$type}-gradient($direction, $colors);
+    background: -moz-#{$type}-gradient($direction, if($type == radial, string.unquote($radial-direction + ', '), null) $colors);
+    background: -webkit-#{$type}-gradient($direction, if($type == radial, string.unquote($radial-direction + ', '), null) $colors);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start}', endColorstr='#{$stop}', GradientType=#{$gradient-type});
+}
+
+//--Background---------------------------------//
+
+@mixin background($size: cover, $x: center, $y: center, $repeat: no-repeat, $color: transparent) {
+    background: {
+        size: $size;
+        position: $x $y;
+        repeat: $repeat;
+        color: $color;
+    }
+}

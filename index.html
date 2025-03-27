@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="stylesheet" href="./css/autoindex.min.css" type="text/css" media="screen"/>
+        <link id="dark-theme" rel="stylesheet" href="./css/dark-theme.min.css" type="text/css" media="screen" disabled/>
+
+        <title>Mega CSS Animation Course</title>
+    </head>
+
+    <body>
+        <header id="header">
+            <div class="container">
+                <form class="search" role="search">
+                    <input id="search" type="search" class="search-input" placeholder="Buscar" aria-label="Buscar" autofocus/>
+                </form>
+                <div class="options">
+                    <div class="btn-default">
+                        <button onclick="toggleDarkLight()">Dark Mode</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="listagem">
+            <div class="container">
+                <ul id="list">
+                    <li>
+                        <a href="4-angular-with-ionic/www/">Section 4: Angular With Ionic</a>
+                    </li>
+                </ul>
+            </div>
+        </main>
+
+        <footer id="footer">
+            <div class="container">
+                <p>Feito por Elnisky</p>
+            </div>
+            <button class="scroll-top" aria-label="Voltar ao Topo" onKeyDown="skipLink(skipForContent)">&#xfe3f;</button>
+        </footer>
+        <script src="./js/init.min.js"></script>
+    </body>
+</html>
