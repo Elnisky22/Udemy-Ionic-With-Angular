@@ -34,6 +34,10 @@ export class RecipeDetailPage implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    console.log('ngOnDestroy');
+  }
+
   onDeleteRecipe() {
     this.alertCtrl.create({
       header: 'Are you sure?',
