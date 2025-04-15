@@ -1,0 +1,14 @@
+h2 {
+    border-bottom: 1px solid rgba(var(--ion-color-primary-rgb), .4);
+    font-size: 18px;
+    margin-bottom: 4px;
+    padding-bottom: 2px;
+}
+
+.offer-details {
+    align-items: center;
+    display: flex;
+    ion-icon {
+        margin-right: 4px;
+    }
+}
