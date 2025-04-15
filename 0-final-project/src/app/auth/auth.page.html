@@ -5,7 +5,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-button (click)="onLogin()" expand="block" fill="clear" shape="round">
+
+    <!-- <ion-spinner name="bubbles" *ngIf="isLoading"></ion-spinner> -->
+
+    <ion-button (click)="onLogin()" *ngIf="!isLoading" expand="block" fill="clear" shape="round">
         Login
     </ion-button>
 </ion-content>
