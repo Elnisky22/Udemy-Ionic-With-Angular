@@ -6,9 +6,33 @@ import { Place } from './place.model';
 })
 export class PlacesService {
   private _places: Place[] = [
-    new Place('p1', 'Manhattan Mansion', 'https://picsum.photos/800/400', 'In the heart of New York City', 149.99),
-    new Place('p2', 'L\'Amour Toujours', 'https://picsum.photos/300', 'A romantic place in Paris', 189.99),
-    new Place('p3', 'The Foggy Palace', 'https://picsum.photos/350', 'Not your average city trip!', 99.99),
+    new Place(
+      'p1',
+      'Manhattan Mansion',
+      'https://picsum.photos/800/400',
+      'In the heart of New York City',
+      149.99,
+      new Date('2025-03-10'),
+      new Date('2030-10-31')
+    ),
+    new Place(
+      'p2',
+      'L\'Amour Toujours',
+      'https://picsum.photos/300',
+      'A romantic place in Paris',
+      189.99,
+      new Date('2025-03-10'),
+      new Date('2030-10-31')
+    ),
+    new Place(
+      'p3',
+      'The Foggy Palace',
+      'https://picsum.photos/350',
+      'Not your average city trip!',
+      99.99,
+      new Date('2025-03-10'),
+      new Date('2030-10-31')
+    ),
   ];
 
   get places() {
