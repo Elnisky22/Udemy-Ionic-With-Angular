@@ -5,6 +5,7 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ionic": "ionic",
+    "ionic-serve": "ionic serve --external",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",

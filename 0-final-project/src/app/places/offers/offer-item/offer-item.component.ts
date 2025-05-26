@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
@@ -10,6 +11,7 @@ import { Place } from '../../place.model';
   styleUrls: ['./offer-item.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     IonicModule,
     RouterModule
   ]

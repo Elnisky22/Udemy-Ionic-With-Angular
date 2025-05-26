@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, ModalController, NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 import { PlacesService } from '../../places.service';
 import { Place } from '../../place.model';
@@ -12,8 +13,9 @@ import { CreateBookingComponent } from 'src/app/bookings/create-booking/create-b
   styleUrls: ['./place-detail.page.scss'],
   standalone: false,
 })
-export class PlaceDetailPage implements OnInit {
+export class PlaceDetailPage implements OnInit, OnDestroy {
   place: Place | undefined;
+  private placeSub!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,8 +33,16 @@ export class PlaceDetailPage implements OnInit {
         return;
       }
       const placeId = paramMap.get('placeId')!;
-      this.place = this.placesService.getPlace(placeId);
+      this.placeSub = this.placesService.getPlace(placeId).subscribe(place => {
+        this.place = place;
+      });
     })
+  }
+
+  ngOnDestroy() {
+    if (this.placeSub) {
+      this.placeSub.unsubscribe();
+    }
   }
 
   onBookPlace() {
