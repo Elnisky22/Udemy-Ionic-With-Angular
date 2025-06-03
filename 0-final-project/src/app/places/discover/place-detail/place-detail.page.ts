@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ActionSheetController, LoadingController, ModalController, NavController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController, AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
 import { PlacesService } from '../../places.service';
@@ -18,6 +18,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class PlaceDetailPage implements OnInit, OnDestroy {
   place: Place | undefined;
   isBookable = false;
+  isLoading = false;
   private placeSub!: Subscription;
 
   constructor(
@@ -28,7 +29,9 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
     private actionSheetController: ActionSheetController,
     private bookingService: BookingService,
     private loadingCtrl: LoadingController,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertCtrl: AlertController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -38,10 +41,26 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
         this.navController.navigateBack('/places/tabs/discover');
         return;
       }
+
+      this.isLoading = true;
       const placeId = paramMap.get('placeId')!;
       this.placeSub = this.placesService.getPlace(placeId).subscribe(place => {
         this.place = place;
         this.isBookable = place?.userId !== this.authService.userId;
+        this.isLoading = false;
+      }, error => {
+        this.alertCtrl.create({
+          header: 'An error ocurred',
+          message: 'Could not fetch place',
+          buttons: [{
+            text: 'Okay',
+            handler: () => {
+              this.router.navigate(['/places/tabs/discover']);
+            }
+          }]
+        }).then(alertEl => {
+          alertEl.present();
+        })
       });
     })
   }

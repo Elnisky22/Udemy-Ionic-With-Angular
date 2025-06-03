@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -16,7 +16,9 @@ import { Place } from '../../place.model';
 
 export class EditOfferPage implements OnInit, OnDestroy {
   place: Place | undefined;
+  placeId!: string;
   form!: FormGroup;
+  isLoading = false;
   private placeSub!: Subscription;
 
   constructor(
@@ -24,7 +26,8 @@ export class EditOfferPage implements OnInit, OnDestroy {
     private navController: NavController,
     private placesService: PlacesService,
     private router: Router,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -34,8 +37,10 @@ export class EditOfferPage implements OnInit, OnDestroy {
         this.navController.navigateBack('/places/tabs/offers');
         return;
       }
-      const placeId = paramMap.get('placeId')!;
-      this.placeSub = this.placesService.getPlace(placeId).subscribe(place => {
+      this.placeId = paramMap.get('placeId')!;
+
+      this.isLoading = true;
+      this.placeSub = this.placesService.getPlace(this.placeId).subscribe(place => {
         this.place = place;
       });
 
@@ -48,6 +53,20 @@ export class EditOfferPage implements OnInit, OnDestroy {
           updateOn: 'blur',
           validators: [Validators.required, Validators.maxLength(180)]
         })
+      })
+      this.isLoading = false;
+    }, error => {
+      this.alertCtrl.create({
+        header: 'An error ocurred',
+        message: 'Place could not be fetched',
+        buttons: [{
+          text: 'Okay',
+          handler: () => {
+            this.router.navigate(['/places/tabs/offers']);
+          }
+        }]
+      }).then(alertEl => {
+        alertEl.present();
       })
     })
   }
